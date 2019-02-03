@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>rebulanyum.CatalogApp.Data</AssemblyName>
+    <RootNamespace>rebulanyum.CatalogApp.Data</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>C:\Users\eizzsap\Repositories\github\rebulanyum\CatalogApp\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Tools\rebulanyum.CatalogApp.snk" Link="rebulanyum.CatalogApp.snk" />
+  </ItemGroup>
+
+</Project>
