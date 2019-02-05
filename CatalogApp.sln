@@ -9,20 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{A0
 		Database\CatalogAppLocalDB_log.ldf = Database\CatalogAppLocalDB_log.ldf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{9A1E10CD-C837-426E-BF82-DE883D502FF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{9A1E10CD-C837-426E-BF82-DE883D502FF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{37723EA3-5F76-4FD9-924A-3B2476EBF46E}"
 	ProjectSection(SolutionItems) = preProject
+		Tools\GenerateDbContextScript.ps1 = Tools\GenerateDbContextScript.ps1
 		Tools\rebulanyum.CatalogApp.snk = Tools\rebulanyum.CatalogApp.snk
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{F2074AC2-95C4-496C-9C9F-F40B875C21A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{F2074AC2-95C4-496C-9C9F-F40B875C21A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{6A6A5F7C-E404-41F0-B241-F0387B8A86CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{6A6A5F7C-E404-41F0-B241-F0387B8A86CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite", "WebSite\WebSite.csproj", "{125B9C7B-20E9-4629-93EA-45BCEC31ADD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSite", "WebSite\WebSite.csproj", "{125B9C7B-20E9-4629-93EA-45BCEC31ADD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{8C351938-02FC-4A19-8DD0-38D33AF67428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{8C351938-02FC-4A19-8DD0-38D33AF67428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
