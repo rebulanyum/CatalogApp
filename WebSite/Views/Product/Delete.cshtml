@@ -1,0 +1,66 @@
+﻿@model rebulanyum.CatalogApp.Data.Product
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<div ng-controller="ProductsController">
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd>{{product.id}}</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Code)</dt>
+        <dd>{{product.code}}</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>{{product.name}}</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Photo)</dt>
+        <dd><img width="300" height="200" src="{{product.photo}}"</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>{{product.price}}</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.LastUpdated)</dt>
+        <dd>{{product.lastUpdated}}</dd>
+    </dl>
+    <div class="form-group">
+        <button class="btn btn-default" ng-click="delete()">Delete</button>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Head {
+    <script type="text/javascript" src="~/lib/angularjs/angular.js"></script>
+    <script type="text/javascript">
+        var catalogApp = angular.module('CatalogApp', []);
+        catalogApp.controller('ProductsController', ['$scope', '$http', function ($scope, $http) {
+            var apiBase = '@ViewData["apiBase"]' + '/products';
+            var productId = @Model.Id;
+            $http.get(apiBase + '/' + productId, { responseType: 'json' })
+                .then(function (response) {
+                    if (response.data) {
+                        response.data.photo = 'data:image/png;base64, ' + response.data.photo;
+                    }
+                    $scope.product = response.data;
+                }, function (ex, er) {
+                    alert(ex);
+                });
+            $scope.delete = function () {
+                $http.delete(apiBase + '/' + productId, { responseType: 'json' })
+                    .then(function (response) {
+                        window.location.href = '/Product/Index';
+                    }, function (ex, er) {
+                        alert(ex);
+                    });
+                return false;
+            };
+        }]);
+    </script>
+}

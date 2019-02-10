@@ -24,7 +24,7 @@ namespace rebulanyum.CatalogApp.Business
             {
                 entity.Property(e => e.Code)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.LastUpdated)
                     .HasColumnType("datetime")
@@ -35,9 +35,11 @@ namespace rebulanyum.CatalogApp.Business
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Photo).HasColumnType("image");
+                entity.Property(e => e.Photo)
+                    .HasColumnType("varbinary")
+                    .HasMaxLength(8000);
 
-                entity.Property(e => e.Price).HasColumnType("smallmoney");
+                entity.Property(e => e.Price).HasColumnType("money");
             });
         }
     }

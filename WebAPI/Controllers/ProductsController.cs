@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -11,28 +12,26 @@ using rebulanyum.CatalogApp.Data;
 
 namespace WebAPI.Controllers
 {
-    [ApiVersion("1.0")]
-    [Route("[controller]")]
-    [Route("v{version:apiVersion}/[controller]")]
-    [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly CatalogAppContext _context;
-
-        public ProductsController(CatalogAppContext context)
+        IProductBusiness productBusiness;
+        public ProductsController(IProductBusiness productBusiness) : base()
         {
-            _context = context;
+            this.productBusiness = productBusiness;
         }
 
         // GET: api/Products
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product[]))]
         [HttpGet]
         public IEnumerable<Product> GetProducts()
         {
-
-            return _context.Product;
+            return productBusiness.GetProducts(false);
         }
 
         // GET: api/Products/5
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct([FromRoute] int id)
         {
@@ -41,7 +40,7 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await productBusiness.GetProductByIdAsync(id);
 
             if (product == null)
             {
@@ -52,6 +51,10 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/Products/5
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct([FromRoute] int id, [FromBody] Product product)
         {
@@ -65,15 +68,13 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await productBusiness.SaveProductAsync(product);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!await productBusiness.ProductExistsByIdAsync(id))
                 {
                     return NotFound();
                 }
@@ -87,6 +88,10 @@ namespace WebAPI.Controllers
         }
 
         // POST: api/Products
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<IActionResult> PostProduct([FromBody] Product product)
         {
@@ -94,17 +99,16 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            _context.Product.Add(product);
+            
             try
             {
-                await _context.SaveChangesAsync();
+                await productBusiness.CreateProductAsync(product);
             }
             catch (DbUpdateException)
             {
-                if (ProductExists(product.Id))
+                if (await productBusiness.ProductExistsByIdAsync(product.Id))
                 {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                    return Conflict();
                 }
                 else
                 {
@@ -116,6 +120,9 @@ namespace WebAPI.Controllers
         }
 
         // DELETE: api/Products/5
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
@@ -124,21 +131,13 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await productBusiness.DeleteProductByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
-
             return Ok(product);
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Product.Any(e => e.Id == id);
         }
     }
 }

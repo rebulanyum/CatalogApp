@@ -1,0 +1,60 @@
+﻿@model IEnumerable<rebulanyum.CatalogApp.Data.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div ng-controller="ProductsController">
+    <h2>Products</h2>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Id)</th>
+                <th>@Html.DisplayNameFor(model => model.Code)</th>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                @*<th>@Html.DisplayNameFor(model => model.Photo)</th>*@
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.LastUpdated)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in products">
+                <td>{{product.id}}</td>
+                <td>{{product.code}}</td>
+                <td>{{product.name}}</td>
+                @*<td>{{product.photo}}</td>*@
+                <td>{{product.price}}</td>
+                <td>{{product.lastUpdated}}</td>
+                <td>
+                    <a href="/Product/Edit/{{product.id}}">Edit</a> |
+                    <a href="/Product/View/{{product.id}}">View</a> |
+                    <a href="/Product/Delete/{{product.id}}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Head {
+    <script type="text/javascript" src="~/lib/angularjs/angular.js"></script>
+    <script type="text/javascript">
+        var catalogApp = angular.module('CatalogApp', []);
+        catalogApp.controller('ProductsController', ['$scope', '$http', function ($scope, $http) {
+            var apiBase = '@ViewData["apiBase"]' + '/products';
+            $http.get(apiBase, { responseType: 'json' })
+                .then(function (response) {
+                    $scope.products = response.data;
+                }, function (ex, er) {
+                    alert(ex);
+                });
+        }]);
+    </script>
+}
+@section BodyScripts {
+
+}

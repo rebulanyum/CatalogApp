@@ -1,0 +1,116 @@
+﻿@model rebulanyum.CatalogApp.Data.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Product</h4>
+<hr />
+<div class="row" ng-controller="ProductsController">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" ng-show="product.id">
+                <label asp-for="Id" class="control-label"></label>
+                <span class="form-control">{{product.id}}</span>
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" ng-model="product.code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" ng-model="product.name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <table>
+                    <tr>
+                        <td style="width:300px;height:200px;background:#E4E4E4; display: block; text-align: center;">
+                            <ui-cropper image="product.photo" result-image="croppedImage" result-image-format="image/png" canvas-scalemode="full-width" area-type="rectangle" aspect-ratio="1.5" init-max-area="true" result-image-quality="1.0" result-image-size="'selection'"></ui-cropper>
+                        </td>
+                        <td><img ng-show="croppedImage" src="{{croppedImage}}" style="width: 300px; height: 200px;" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Select an image file: <image-file ng-model="product.photo" /></td>
+                    </tr>
+                </table>
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" ng-model="product.price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group" ng-show="product.lastUpdated">
+                <label asp-for="LastUpdated" class="control-label"></label>
+                <span class="form-control">{{product.lastUpdated}}</span>
+                <span asp-validation-for="LastUpdated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" ng-click="save(); $event.stopPropagation(); $event.preventDefault();">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Head {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_CrUDScriptsPartial");}
+    <script type="text/javascript">
+        var catalogApp = angular.module('CatalogApp', ['uiCropper', 'imageFile']);
+        catalogApp.controller('ProductsController', ['$scope', '$http', function ($scope, $http) {
+            var productId = @Model.Id;
+            var apiBase = '@ViewData["apiBase"]' + '/products/' + productId;
+
+            $scope.product = {
+                code: null,
+                name: null,
+                photo: null,
+                price: null
+            };
+            $scope.croppedImage = null;
+            $http.get(apiBase, { responseType: 'json' })
+                .then(function (response) {
+                    if (response.data) {
+                        response.data.photo = 'data:image/png;base64, ' + response.data.photo;
+                    }
+                    $scope.product = response.data;
+                }, function (ex, er) {
+                    alert(ex);
+                });
+            $scope.save = function () {
+                if ($scope.product.price > 999) {
+                    var result = window.confirm("The product price is more than 999. Do you wish to continue?");
+                    if (!result) {
+                        return false;
+                    }
+                }
+
+                if ($scope.croppedImage) {
+                    var base64 = $scope.croppedImage.split(',');
+                    $scope.product.photo = base64[1].trim();
+                } else {
+                    $scope.product.photo = null;
+                }
+
+                $http.put(apiBase, JSON.stringify($scope.product), { responseType: 'json' })
+                    .then(function (response) {
+                        window.location.href = '/Product/View' + '/' + $scope.product.id;
+                    }, function (ex, er) {
+                        alert(ex);
+                    });
+                return false;
+            };
+        }]);
+    </script>
+}

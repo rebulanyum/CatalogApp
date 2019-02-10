@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using rebulanyum.CatalogApp.Data;
 using rebulanyum.CatalogApp.WebSite.Models;
 
 namespace rebulanyum.CatalogApp.WebSite.Controllers

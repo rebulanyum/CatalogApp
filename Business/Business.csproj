@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ProductSummary.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\Tools\rebulanyum.CatalogApp.snk" Link="rebulanyum.CatalogApp.snk" />
   </ItemGroup>
 
