@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace rebulanyum.CatalogApp.Data
+namespace rebulanyum.CatalogApp.Data.V2
 {
     /// <summary>
     /// The interface for Product related operations.
@@ -15,10 +15,8 @@ namespace rebulanyum.CatalogApp.Data
         /// <summary>
         /// Retrieve Products from the underlying store.
         /// </summary>
-        /// <param name="includePhoto">True If photografs of the Products are required; otherwise, False.</param>
         /// <returns>Returns the Products.</returns>
-        /// <remarks>Usage of the photographs may slow down the retrieve process. Thus please consider to use <paramref name="includePhoto"/></remarks>
-        IEnumerable<Product> GetProducts(bool includePhoto = false);
+        IEnumerable<Product> GetProducts();
         /// <summary>
         /// Retrieve the Product with the specified <paramref name="id"/> value from the underlying store.
         /// </summary>

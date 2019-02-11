@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using rebulanyum.CatalogApp.Business;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
+using System.IO;
 
 namespace rebulanyum.CatalogApp.WebAPI
 {
@@ -37,6 +40,7 @@ namespace rebulanyum.CatalogApp.WebAPI
             
             var connection = Configuration.GetConnectionString("rebulanyum.CatalogApp");
             services.AddDbContext<CatalogAppContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<Business.V2.CatalogAppContext>(options => options.UseSqlServer(connection));
             services.AddCatalogAppBusiness();
 
             services.AddApiVersioning(options => {
@@ -47,11 +51,35 @@ namespace rebulanyum.CatalogApp.WebAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("CatalogApp", new Info {
+                c.SwaggerDoc("CatalogApp1", new Info {
                     Title = "CatalogApp API", Version = "v1.0",
+                    Contact = new Contact() { Name = "Izzet Sapkalioglu Ojalvo", Url = "https://github.com/rebulanyum/CatalogApp" },
+                    Description = "With this API you can retrieve, create, update & delete Product entities with Photographs."
+                });
+                c.SwaggerDoc("CatalogApp2", new Info {
+                    Title = "CatalogApp API2", Version = "v2.0",
                     Contact = new Contact() { Name = "Izzet Sapkalioglu Ojalvo", Url = "https://github.com/rebulanyum/CatalogApp" },
                     Description = "With this API you can retrieve, create, update & delete Product entities."
                 });
+
+                c.CustomSchemaIds(type => type.FullName);
+
+                c.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (!apiDesc.TryGetMethodInfo(out System.Reflection.MethodInfo methodInfo)) return false;
+
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    return versions.Any(v => $"CatalogApp{v.MajorVersion}" == docName);
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +99,8 @@ namespace rebulanyum.CatalogApp.WebAPI
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/api-docs/CatalogApp/swagger.json", "CatalogApp");
+                c.SwaggerEndpoint("/api-docs/CatalogApp1/swagger.json", "CatalogApp1");
+                c.SwaggerEndpoint("/api-docs/CatalogApp2/swagger.json", "CatalogApp2");
                 c.RoutePrefix = string.Empty;
             });
 

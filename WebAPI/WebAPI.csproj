@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -7,6 +7,14 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>C:\Users\eizzsap\Repositories\github\rebulanyum\CatalogApp\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
     <UserSecretsId>38311155-3ba0-48ca-a48b-5d18fdc8073d</UserSecretsId>
+  </PropertyGroup>
+
+  <!--<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\eizzsap\Repositories\github\rebulanyum\CatalogApp\WebAPI\rebulanyum.CatalogApp.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>-->
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

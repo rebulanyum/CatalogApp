@@ -13,8 +13,6 @@ using MvcControllerBase = Microsoft.AspNetCore.Mvc.ControllerBase;
 
 namespace WebAPI.Controllers
 {
-    [ApiVersion("1.0")]
-    [Route("api/[controller]")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = false)]

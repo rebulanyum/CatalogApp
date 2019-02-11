@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using rebulanyum.CatalogApp.Data;
 
-namespace rebulanyum.CatalogApp.Business
+namespace rebulanyum.CatalogApp.Business.V2
 {
     /// <summary>
     /// Base class for Business classes.

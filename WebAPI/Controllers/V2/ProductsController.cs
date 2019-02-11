@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
-using rebulanyum.CatalogApp.Business;
-using rebulanyum.CatalogApp.Data;
+using rebulanyum.CatalogApp.Business.V2;
+using rebulanyum.CatalogApp.Data.V2;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers.V2
 {
     /// <summary>
     /// The API of Products.
     /// </summary>
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class ProductsController : ControllerBase
     {
         IProductBusiness productBusiness;
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IEnumerable<Product> GetProducts()
         {
-            return productBusiness.GetProducts(false);
+            return productBusiness.GetProducts();
         }
 
         // GET: api/Products/5
@@ -123,7 +123,7 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             try
             {
                 await productBusiness.CreateProductAsync(product);

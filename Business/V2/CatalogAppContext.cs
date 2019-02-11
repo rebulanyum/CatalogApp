@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using rebulanyum.CatalogApp.Data;
+using rebulanyum.CatalogApp.Data.V2;
 
-namespace rebulanyum.CatalogApp.Business
+namespace rebulanyum.CatalogApp.Business.V2
 {
     /// <summary>
     /// The class that represents store for entities.
@@ -39,10 +39,6 @@ namespace rebulanyum.CatalogApp.Business
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Photo)
-                    .HasColumnType("varbinary")
-                    .HasMaxLength(8000);
 
                 entity.Property(e => e.Price).HasColumnType("money");
             });

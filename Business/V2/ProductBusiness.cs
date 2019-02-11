@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using rebulanyum.CatalogApp.Data;
+using rebulanyum.CatalogApp.Data.V2;
 
-namespace rebulanyum.CatalogApp.Business
+namespace rebulanyum.CatalogApp.Business.V2
 {
     /// <summary>
     /// The business class for Product related operations.
@@ -17,21 +17,9 @@ namespace rebulanyum.CatalogApp.Business
         {
         }
         
-        public IEnumerable<Product> GetProducts(bool includePhoto = false)
+        public IEnumerable<Product> GetProducts()
         {
-            if (includePhoto)
-            {
-                return Context.Product;
-            }
-
-            return Context.Product.Select(product => new Product()
-            {
-                Code = product.Code,
-                Id = product.Id,
-                LastUpdated = product.LastUpdated,
-                Name = product.Name,
-                Price = product.Price
-            });
+            return Context.Product;
         }
 
         public Task<Product> GetProductByIdAsync(int id)

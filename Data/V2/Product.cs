@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace rebulanyum.CatalogApp.Data
+namespace rebulanyum.CatalogApp.Data.V2
 { 
     /// <summary>
     /// The Product entity.
@@ -23,10 +23,6 @@ namespace rebulanyum.CatalogApp.Data
         /// The Name of the Product.
         /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// Photograph data of the Product. This should be in Base64.
-        /// </summary>
-        public byte[] Photo { get; set; }
         /// <summary>
         /// The Price of the Product.
         /// </summary>
