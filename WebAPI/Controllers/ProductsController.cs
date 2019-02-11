@@ -168,5 +168,25 @@ namespace WebAPI.Controllers
 
             return Ok(product);
         }
+
+        /// <summary>
+        /// Retrieves the Products in Excel file format.
+        /// </summary>
+        /// <returns>Returns the Products in Excel file format.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileStreamResult))]
+        [HttpGet("[action]")]
+        public FileStreamResult Export()
+        {
+            var products = GetProducts();
+            var stream = new System.IO.MemoryStream();
+            using (var excel = new OfficeOpenXml.ExcelPackage(stream))
+            {
+                var excelWorksheet = excel.Workbook.Worksheets.Add("CatalogApp-Products");
+                excelWorksheet.Cells.LoadFromCollection(products, true);
+                excel.Save();
+                stream.Position = 0;
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "CatalogApp-Products.xlsx");
+            }
+        }
     }
 }

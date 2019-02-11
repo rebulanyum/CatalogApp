@@ -37,22 +37,23 @@
                 </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5"></td>
+                <td><a href="@ViewData["apiBase"]/products/export" target="_blank">Export to Excel</a></td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
 @section Head {
     <script type="text/javascript" src="~/lib/angularjs/angular.js"></script>
+    <script type="text/javascript" src="~/js/product/index.js"></script>
     <script type="text/javascript">
-        var catalogApp = angular.module('CatalogApp', []);
-        catalogApp.controller('ProductsController', ['$scope', '$http', function ($scope, $http) {
-            var apiBase = '@ViewData["apiBase"]' + '/products';
-            $http.get(apiBase, { responseType: 'json' })
-                .then(function (response) {
-                    $scope.products = response.data;
-                }, function (ex, er) {
-                    alert(ex);
-                });
-        }]);
+        (function () {
+            var apiBase = '@ViewData["apiBase"]';
+            Initialize(apiBase);
+        })();
     </script>
 }
 @section BodyScripts {

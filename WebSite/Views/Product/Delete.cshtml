@@ -38,29 +38,12 @@
 
 @section Head {
     <script type="text/javascript" src="~/lib/angularjs/angular.js"></script>
+    <script type="text/javascript" src="~/js/product/delete.js"></script>
     <script type="text/javascript">
-        var catalogApp = angular.module('CatalogApp', []);
-        catalogApp.controller('ProductsController', ['$scope', '$http', function ($scope, $http) {
-            var apiBase = '@ViewData["apiBase"]' + '/products';
+        (function () {
+            var apiBase = '@ViewData["apiBase"]';
             var productId = @Model.Id;
-            $http.get(apiBase + '/' + productId, { responseType: 'json' })
-                .then(function (response) {
-                    if (response.data) {
-                        response.data.photo = 'data:image/png;base64, ' + response.data.photo;
-                    }
-                    $scope.product = response.data;
-                }, function (ex, er) {
-                    alert(ex);
-                });
-            $scope.delete = function () {
-                $http.delete(apiBase + '/' + productId, { responseType: 'json' })
-                    .then(function (response) {
-                        window.location.href = '/Product/Index';
-                    }, function (ex, er) {
-                        alert(ex);
-                    });
-                return false;
-            };
-        }]);
+            Initialize(apiBase, productId);
+        })();
     </script>
 }
