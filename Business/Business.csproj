@@ -5,7 +5,7 @@
     <AssemblyName>rebulanyum.CatalogApp.Business</AssemblyName>
     <RootNamespace>rebulanyum.CatalogApp.Business</RootNamespace>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\Users\eizzsap\Repositories\github\rebulanyum\CatalogApp\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

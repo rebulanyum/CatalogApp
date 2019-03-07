@@ -5,7 +5,7 @@
     <AssemblyName>rebulanyum.CatalogApp.WebAPI</AssemblyName>
     <RootNamespace>rebulanyum.CatalogApp.WebAPI</RootNamespace>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\Users\eizzsap\Repositories\github\rebulanyum\CatalogApp\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\Tools\rebulanyum.CatalogApp.snk</AssemblyOriginatorKeyFile>
     <UserSecretsId>38311155-3ba0-48ca-a48b-5d18fdc8073d</UserSecretsId>
   </PropertyGroup>
 
